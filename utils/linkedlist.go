@@ -12,8 +12,8 @@ func NewLinkedList[Value interface{}]() *LinkedList[Value] {
 }
 
 type LinkedListNode[Value interface{}] struct {
-  next  *LinkedListNode[Value]
-  prev  *LinkedListNode[Value]
+  Next  *LinkedListNode[Value]
+  Prev  *LinkedListNode[Value]
   Value Value
 }
 
@@ -30,7 +30,7 @@ func (ll *LinkedList[Value]) Pop() *LinkedListNode[Value] {
   }
   node := ll.Tail
   ll.clipTail(ll.Tail)
-  node.prev = nil
+  node.Prev = nil
   return node
 }
 
@@ -42,8 +42,8 @@ func (ll *LinkedList[Value]) Unshift(value Value) *LinkedListNode[Value] {
     ll.Root = node
     ll.Tail = node
   } else {
-    node.next = ll.Root
-    ll.Root.prev = node
+    node.Next = ll.Root
+    ll.Root.Prev = node
     ll.Root = node
   }
   return node
@@ -54,10 +54,10 @@ func (ll *LinkedList[Value]) Shift() *LinkedListNode[Value] {
     return nil
   }
   node := ll.Root
-  ll.Root = ll.Root.next
-  node.next = nil
+  ll.Root = ll.Root.Next
+  node.Next = nil
   if ll.Root != nil {
-    ll.Root.prev = nil
+    ll.Root.Prev = nil
   } else {
     ll.Tail = nil
   }
@@ -71,10 +71,10 @@ func (ll *LinkedList[Value]) ShiftTail(toLinkedList *LinkedList[Value], count in
 
   node := ll.Tail
   for i := 1; i < count; i++ {
-    if node.prev == nil {
+    if node.Prev == nil {
       break
     }
-    node = node.prev
+    node = node.Prev
   }
   tail := ll.Tail
   ll.clipTail(node)
@@ -83,27 +83,27 @@ func (ll *LinkedList[Value]) ShiftTail(toLinkedList *LinkedList[Value], count in
 }
 
 func (ll *LinkedList[Value]) connectTail(node *LinkedListNode[Value]) {
-  node.prev = ll.Tail
+  node.Prev = ll.Tail
   if ll.Root == nil {
     ll.Root = node
     ll.Tail = node
   } else {
-    ll.Tail.next = node
+    ll.Tail.Next = node
     ll.Tail = node
   }
 }
 
 func (ll *LinkedList[Value]) clipTail(node *LinkedListNode[Value]) {
-  ll.Tail = node.prev
+  ll.Tail = node.Prev
   if ll.Tail != nil {
-    ll.Tail.next = nil
+    ll.Tail.Next = nil
   } else {
     ll.Root = nil
   }
 }
 
 func (ll *LinkedList[Value]) Print() {
-  for c := ll.Root; c != nil; c = c.next {
+  for c := ll.Root; c != nil; c = c.Next {
     fmt.Print(c.Value)
     fmt.Print(" ")
   }
