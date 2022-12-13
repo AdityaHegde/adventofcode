@@ -1,9 +1,10 @@
 package main
 
 import (
-  "AdityaHegde/adventofcode/utils"
   "container/heap"
   "fmt"
+
+  "AdityaHegde/adventofcode/utils"
 )
 
 type elf struct {
