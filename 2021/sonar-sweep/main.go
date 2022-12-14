@@ -1,8 +1,9 @@
 package main
 
 import (
-  "AdityaHegde/adventofcode/utils"
   "fmt"
+
+  "AdityaHegde/adventofcode/utils"
 )
 
 const window = 3
@@ -15,12 +16,12 @@ func main() {
 
   ints := make([]int64, len(lines))
   for i := 0; i < window; i++ {
-    ints[i] = utils.Int(lines[i])
+    ints[i] = utils.Int64(lines[i])
     prev += ints[i]
   }
 
   for i := window; i < len(lines); i++ {
-    ints[i] = utils.Int(lines[i])
+    ints[i] = utils.Int64(lines[i])
     next := prev - ints[i-window] + ints[i]
     if prev < next {
       c++

@@ -78,7 +78,7 @@ func parseDirectories(lines []string) *directory {
       if entry[0] == "dir" {
         cur.dirs[entry[1]] = newDirectory(entry[1], cur)
       } else {
-        size := utils.Int(entry[0])
+        size := utils.Int64(entry[0])
         cur.files[entry[1]] = &file{
           name: entry[1],
           size: size,

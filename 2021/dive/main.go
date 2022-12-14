@@ -1,9 +1,10 @@
 package main
 
 import (
-  "AdityaHegde/adventofcode/utils"
   "fmt"
   "strings"
+
+  "AdityaHegde/adventofcode/utils"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 
   for _, line := range lines {
     splits := strings.Split(line, " ")
-    dist := utils.Int(splits[1])
+    dist := utils.Int64(splits[1])
     switch splits[0] {
     case "forward":
       x += dist

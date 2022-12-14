@@ -36,7 +36,7 @@ func (c *cpu) parseInstruction(instruction string, callback func(cycles int)) {
     c.cycles++
     callback(c.cycles)
   case "addx":
-    amt := int(utils.Int(oprn[1]))
+    amt := int(utils.Int64(oprn[1]))
     c.cycles++
     callback(c.cycles)
     c.cycles++

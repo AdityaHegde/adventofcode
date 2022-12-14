@@ -81,7 +81,7 @@ func trackRope(lines []string, ropeSize int) int {
 
   for _, line := range lines {
     dir := line[0]
-    dist := int(utils.Int(line[2:]))
+    dist := int(utils.Int64(line[2:]))
     for i := 0; i < dist; i++ {
       moveHead(dir)
     }

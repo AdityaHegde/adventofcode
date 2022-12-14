@@ -38,7 +38,7 @@ func (m *monkey) parse(lines []string, start int) int {
     ", ",
   )
   for _, item := range items {
-    m.items = append(m.items, utils.Int(item))
+    m.items = append(m.items, utils.Int64(item))
   }
 
   // parse operation
@@ -55,23 +55,23 @@ func (m *monkey) parse(lines []string, start int) int {
     m.oprn = '^'
   } else {
     m.oprn = mod[0][0]
-    m.amt = utils.Int(mod[1])
+    m.amt = utils.Int64(mod[1])
   }
 
   // parse throw condition
-  m.div = utils.Int(strings.Replace(
+  m.div = utils.Int64(strings.Replace(
     strings.TrimSpace(lines[start+2]),
     "Test: divisible by ",
     "",
     1,
   ))
-  m.true = int(utils.Int(strings.Replace(
+  m.true = int(utils.Int64(strings.Replace(
     strings.TrimSpace(lines[start+3]),
     "If true: throw to monkey ",
     "",
     1,
   )))
-  m.false = int(utils.Int(strings.Replace(
+  m.false = int(utils.Int64(strings.Replace(
     strings.TrimSpace(lines[start+4]),
     "If false: throw to monkey ",
     "",

@@ -54,7 +54,7 @@ func main() {
       continue
     }
 
-    c := utils.Int(line)
+    c := utils.Int64(line)
     e.items = append(e.items, c)
     e.total += c
   }

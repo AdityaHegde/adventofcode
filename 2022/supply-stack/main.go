@@ -42,9 +42,9 @@ var MoveRegex = regexp.MustCompile("move (\\d*) from (\\d*) to (\\d*)")
 
 func getMovements(line string) (int, int, int) {
   matches := MoveRegex.FindStringSubmatch(line)
-  amt := int(utils.Int(matches[1]))
-  from := int(utils.Int(matches[2])) - 1
-  to := int(utils.Int(matches[3])) - 1
+  amt := int(utils.Int64(matches[1]))
+  from := int(utils.Int64(matches[2])) - 1
+  to := int(utils.Int64(matches[3])) - 1
   return amt, from, to
 }
 

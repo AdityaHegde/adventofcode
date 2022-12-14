@@ -35,7 +35,7 @@ func getOverlaps(lines []string, overlapCheck func(int64, int64, int64, int64) b
     elfRanges := make([][]int64, len(elves))
     for i, elf := range elves {
       ranges := strings.Split(elf, "-")
-      elfRanges[i] = []int64{utils.Int(ranges[0]), utils.Int(ranges[1])}
+      elfRanges[i] = []int64{utils.Int64(ranges[0]), utils.Int64(ranges[1])}
     }
 
     if overlapCheck(elfRanges[0][0], elfRanges[0][1], elfRanges[1][0], elfRanges[1][1]) {
