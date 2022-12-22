@@ -109,3 +109,7 @@ func (ll *LinkedList[Value]) Print() {
   }
   fmt.Println()
 }
+
+func (ll *LinkedList[Value]) Empty() bool {
+  return ll.Root == nil
+}
