@@ -1,5 +1,7 @@
 use regex::Regex;
 
+mod utils;
+
 fn main() {}
 
 fn parse_line(line: &str) -> (usize, usize, u8, &[u8]) {
@@ -37,18 +39,18 @@ fn part2(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
+    use super::utils::*;
     use super::*;
 
     #[test]
     fn part1_test() {
-        assert_eq!(part1(fs::read_to_string("./data/day2/sample.txt").unwrap().as_str()), 2);
-        assert_eq!(part1(fs::read_to_string("./data/day2/input.txt").unwrap().as_str()), 447);
+        assert_eq!(part1(sample(2).as_str()), 2);
+        assert_eq!(part1(input(2).as_str()), 447);
     }
 
     #[test]
     fn part2_test() {
-        assert_eq!(part2(fs::read_to_string("./data/day2/sample.txt").unwrap().as_str()), 1);
-        assert_eq!(part2(fs::read_to_string("./data/day2/input.txt").unwrap().as_str()), 249);
+        assert_eq!(part2(sample(2).as_str()), 1);
+        assert_eq!(part2(input(2).as_str()), 249);
     }
 }

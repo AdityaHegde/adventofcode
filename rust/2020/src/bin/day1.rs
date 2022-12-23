@@ -1,5 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
+mod utils;
+
 fn main() {}
 
 fn part1(input: &str, sum: i32) -> i32 {
@@ -35,18 +37,18 @@ fn part2(input: &str, sum: i32) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
+    use crate::utils::*;
     use super::*;
 
     #[test]
     fn part1_test() {
-        assert_eq!(part1(fs::read_to_string("./data/day1/sample.txt").unwrap().as_str(), 2020), 514579);
-        assert_eq!(part1(fs::read_to_string("./data/day1/input.txt").unwrap().as_str(), 2020), 802011);
+        assert_eq!(part1(sample(1).as_str(), 2020), 514579);
+        assert_eq!(part1(input(1).as_str(), 2020), 802011);
     }
 
     #[test]
     fn part2_test() {
-        assert_eq!(part2(fs::read_to_string("./data/day1/sample.txt").unwrap().as_str(), 2020), 241861950);
-        assert_eq!(part2(fs::read_to_string("./data/day1/input.txt").unwrap().as_str(), 2020), 248607374);
+        assert_eq!(part2(sample(1).as_str(), 2020), 241861950);
+        assert_eq!(part2(input(1).as_str(), 2020), 248607374);
     }
 }
