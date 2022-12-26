@@ -67,13 +67,28 @@ func (r *rock) print() {
 }
 
 type problem struct {
-  rocks []*rock
-  grid  [][]bool
+  rocks      []*rock
+  rockIdx    int
+  dirs       []int
+  dirIdx     int
+  grid       [][]bool
+  height     int
+  prevHeight int
+  cache      *cache
 }
 
-func newProblem(width int) *problem {
+func newProblem(width int, jet string) *problem {
+  dirs := make([]int, len(jet))
+  for i, j := range jet {
+    if j == '>' {
+      dirs[i] = 1
+    } else {
+      dirs[i] = -1
+    }
+  }
+
   p := &problem{
-    rocks: []*rock{
+    []*rock{
       // ####
       newRock([]*point{
         {0, 0}, {1, 0}, {2, 0}, {3, 0},
@@ -108,7 +123,13 @@ func newProblem(width int) *problem {
         {0, 0}, {1, 0},
       }),
     },
-    grid: make([][]bool, width),
+    0,
+    dirs,
+    0,
+    make([][]bool, width),
+    0,
+    0,
+    newCache(15),
   }
   for i := 0; i < width; i++ {
     p.grid[i] = make([]bool, 0)
@@ -156,65 +177,50 @@ func (p *problem) add(r *rock) {
   }
 }
 
-func (p *problem) print() {
-  fmt.Println("----")
-  for _, c := range p.grid {
-    for _, p := range c {
-      if p {
-        fmt.Print("#")
-      } else {
-        fmt.Print(".")
-      }
-    }
-    fmt.Println()
-  }
+func (p *problem) moveToDir(r *rock) {
+  p.moveSide(r, p.dirs[p.dirIdx])
+  p.dirIdx = (p.dirIdx + 1) % len(p.dirs)
 }
 
-func parseJet(jet string) []int {
-  dirs := make([]int, len(jet))
-  for i, j := range jet {
-    if j == '>' {
-      dirs[i] = 1
-    } else {
-      dirs[i] = -1
-    }
-  }
-  return dirs
-}
-
-func partOne(jet string, iters int) int {
-  p := newProblem(7)
-  c := newCache(10)
-  rockIdx := 0
-  height := 0
-  res := height
-
-  dirs := parseJet(jet)
-  dirIdx := 0
-  moveToDir := func(r *rock) {
-    p.moveSide(r, dirs[dirIdx])
-    dirIdx = (dirIdx + 1) % len(dirs)
-  }
-
+func (p *problem) cycle(iters int, shouldCache bool) int {
   for i := 0; i < iters; i++ {
-    r := p.rocks[rockIdx].clone()
-    r.offset(2, height+3+r.yMin)
+    p.prevHeight = p.height
+    r := p.rocks[p.rockIdx].clone()
+    r.offset(2, p.height+3+r.yMin)
 
-    moveToDir(r)
+    p.moveToDir(r)
     for p.moveDown(r) {
-      moveToDir(r)
+      p.moveToDir(r)
     }
     p.add(r)
 
-    rockIdx = (rockIdx + 1) % len(p.rocks)
-    if r.yMax+1 > height {
-      height = r.yMax + 1
+    p.rockIdx = (p.rockIdx + 1) % len(p.rocks)
+    if r.yMax+1 > p.height {
+      p.height = r.yMax + 1
     }
-    cycle := c.add(height, rockIdx, dirIdx, i)
-    if cycle != -1 {
-      fmt.Println(cycle)
+    if shouldCache {
+      cycle := p.cache.add(p, p.height, p.rockIdx, p.dirIdx, i)
+      if cycle != -1 {
+        return cycle
+      }
     }
   }
 
-  return res
+  return iters
+}
+
+func partOne(jet string, iters int) int {
+  p := newProblem(7, jet)
+  p.cycle(iters, false)
+  return p.height
+}
+
+func partTwo(jet string, iters int) int {
+  p := newProblem(7, jet)
+  loop := p.cycle(iters, true)
+  height := p.prevHeight * iters / loop
+  iters %= loop
+  fmt.Println("Loop", loop, p.prevHeight, iters, height)
+  p.cycle(iters, false)
+  return height + p.height
 }
