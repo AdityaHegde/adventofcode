@@ -21,7 +21,7 @@ func Int(str string) int {
 	return int(intVal)
 }
 
-var NumbersRegex = regexp.MustCompile(`(\d+)`)
+var NumbersRegex = regexp.MustCompile(`([-\d]+)`)
 
 func ParseInts(str string) []int {
 	intMatches := NumbersRegex.FindAllStringSubmatch(str, -1)
